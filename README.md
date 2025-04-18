@@ -1,2 +1,2 @@
 # sb-eCom
-Product grade E-Commerce project
+Production grade E-Commerce project
