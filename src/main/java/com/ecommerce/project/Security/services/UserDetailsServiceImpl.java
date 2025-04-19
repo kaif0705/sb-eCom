@@ -1,4 +1,4 @@
-package com.ecommerce.project.security.services;
+package com.ecommerce.project.Security.services;
 
 import com.ecommerce.project.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

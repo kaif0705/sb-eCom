@@ -1,7 +1,7 @@
 package com.ecommerce.project.Model;
 
 public enum AppRole {
-    USER,
-    ADMIN,
-    SELLER
+    ROLE_USER,
+    ROLE_SELLER,
+    ROLE_ADMIN
 }

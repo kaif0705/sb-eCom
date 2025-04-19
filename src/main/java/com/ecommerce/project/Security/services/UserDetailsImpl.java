@@ -1,4 +1,4 @@
-package com.ecommerce.project.security.services;
+package com.ecommerce.project.Security.services;
 
 import java.util.Collection;
 import java.util.List;

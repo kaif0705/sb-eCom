@@ -33,12 +33,12 @@ public class User {
     private Long userId;
 
     @NotBlank
-    @Size(min = 4, max = 10)
+    @Size(max = 20)
     @Column(name= "username")
     private String userName;
 
     @NotBlank
-    @Size(min = 4, max = 10)
+    @Size(max = 120)
     @Column(name= "password")
     private String password;
 
@@ -48,10 +48,10 @@ public class User {
     @Column(name= "email")
     private String email;
 
-    public User(String userName, String password, String email) {
+    public User(String userName, String email, String password) {
         this.userName = userName;
-        this.password = password;
         this.email = email;
+        this.password = password;
     }
 
     //Joining User and Role table
