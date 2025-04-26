@@ -69,6 +69,11 @@ public class User {
             orphanRemoval= true)
     private Set<Product> products;
 
+    @ToString.Exclude
+    @OneToOne(mappedBy= "user", cascade= {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval= true)
+    @JoinColumn(name= "cart_id")
+    private Cart cart;
+
     @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE}   )
     @JoinTable( name= "user_address",
             joinColumns= @JoinColumn(name= "user_id"),

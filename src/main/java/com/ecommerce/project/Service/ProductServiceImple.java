@@ -1,9 +1,12 @@
 package com.ecommerce.project.Service;
 
+import com.ecommerce.project.Model.Cart;
 import com.ecommerce.project.Model.Category;
 import com.ecommerce.project.Model.Product;
+import com.ecommerce.project.Payload.CartDTO;
 import com.ecommerce.project.Payload.ProductDTO;
 import com.ecommerce.project.Payload.ProductResponse;
+import com.ecommerce.project.Repository.CartRepository;
 import com.ecommerce.project.Repository.CategoryRepository;
 import com.ecommerce.project.Repository.ProductRepository;
 import com.ecommerce.project.exceptions.APIException;
@@ -29,6 +32,12 @@ public class ProductServiceImple implements ProductService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -195,6 +204,26 @@ public class ProductServiceImple implements ProductService {
 
         Product savedProduct= productRepository.save(products);
 
+        //After updating the product it should also reflect in each and every cart of the user
+        List<Cart> carts= cartRepository.findCartsByProductId(productId);
+
+        List<CartDTO> cartDTO= carts.stream().map(
+            cart -> {
+                CartDTO cartDTOs= modelMapper.map(cart, CartDTO.class);
+
+                List<ProductDTO> productDTOs= cart.getCartItem().stream().map(
+                        cartItem -> {
+                            return modelMapper.map(cartItem.getProduct(), ProductDTO.class);
+                        }
+                ).toList();
+                cartDTOs.setProducts(productDTOs);
+
+                return cartDTOs;
+            }
+        ).toList();
+
+        cartDTO.forEach(cart -> cartService.updateProductInCarts(cart.getCartId(), productId));
+
         return modelMapper.map(savedProduct, ProductDTO.class);
     }
 
@@ -205,8 +234,16 @@ public class ProductServiceImple implements ProductService {
         Product products= productRepository.findById(productId).
                 orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-        productRepository.delete(products);
+        //Delete product from users cart as well
+        List<Cart> carts= cartRepository.findCartsByProductId(productId);
 
+        carts.forEach(
+                cart -> {
+                    cartService.deleteProductFromCart(cart.getCartId(), productId);
+                }
+        );
+
+        productRepository.delete(products);
         return modelMapper.map(products, ProductDTO.class);
 
     }

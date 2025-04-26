@@ -1,5 +1,9 @@
-package com.ecommerce.project.Model;
+package com.ecommerce.project.Controller;
 
+import com.ecommerce.project.Model.AppRole;
+import com.ecommerce.project.Model.Role;
+import com.ecommerce.project.Model.User;
+import com.ecommerce.project.Model.UserInfoResponse;
 import com.ecommerce.project.Repository.RoleRepository;
 import com.ecommerce.project.Repository.UserRepository;
 import com.ecommerce.project.Security.JWT.JwtUtils;
@@ -100,6 +104,7 @@ public class AuthController {
        Set<Role> roles= new HashSet<>();
 
        if(strRoles == null){
+           //Default role
            Role role= roleRepository.findByRoleName(AppRole.ROLE_USER).
                    orElseThrow(() -> new RuntimeException("Role not found"));
            roles.add(role);
