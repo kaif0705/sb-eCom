@@ -1,7 +1,6 @@
 package com.ecommerce.project.Controller;
 
 import com.ecommerce.project.Model.Cart;
-import com.ecommerce.project.Model.User;
 import com.ecommerce.project.Payload.CartDTO;
 import com.ecommerce.project.Repository.CartRepository;
 import com.ecommerce.project.Service.CartService;

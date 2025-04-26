@@ -1,7 +1,6 @@
 package com.ecommerce.project.Repository;
 
 import com.ecommerce.project.Model.CartItem;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
